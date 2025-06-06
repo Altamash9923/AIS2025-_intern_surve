@@ -1,0 +1,172 @@
+Sawwalakhe Altamash:
+# 📦 Import necessary libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
+
+# ------------------------------------------------
+# 🚢 TASK 1: Drop Missing Values - Titanic Dataset
+# ------------------------------------------------
+print("\n📌 TASK 1: Drop Missing Values (Titanic)\n")
+
+titanic = sns.load_dataset('titanic')
+print("🔍 Missing values before drop:\n", titanic.isnull().sum())
+titanic_dropped = titanic.dropna()
+print("\n✅ Missing values after drop:\n", titanic_dropped.isnull().sum())
+
+# ------------------------------------------------
+# 🚢 TASK 2: Fill Missing Values - Titanic Dataset
+# ------------------------------------------------
+print("\n📌 TASK 2: Fill Missing Values (Titanic)\n")
+
+titanic = sns.load_dataset('titanic')  # Reload original
+
+# Fill missing age with median
+titanic['age'] = titanic['age'].fillna(titanic['age'].median())
+
+# Fill embarked with mode
+titanic['embarked'] = titanic['embarked'].fillna(titanic['embarked'].mode()[0])
+
+# Fill deck with "Unknown"
+titanic['deck'] = titanic['deck'].fillna('Unknown')
+
+print("✅ Missing values after filling:\n", titanic.isnull().sum())
+
+# ------------------------------------------------
+# 🚢 TASK 3: Label Encode Categorical Columns
+# ------------------------------------------------
+print("\n📌 TASK 3: Label Encoding (Titanic)\n")
+
+le = LabelEncoder()
+categorical_cols = titanic.select_dtypes(include='object').columns
+
+for col in categorical_cols:
+    titanic[col] = titanic[col].astype(str)
+    titanic[col] = le.fit_transform(titanic[col])
+
+print("✅ Encoded Titanic dataset (first 5 rows):\n", titanic.head())
+
+# ------------------------------------------------
+# 🌸 TASK 4: Normalize & Standardize - Iris Dataset
+# ------------------------------------------------
+print("\n📌 TASK 4: Normalize & Standardize (Iris)\n")
+
+iris = sns.load_dataset('iris')
+iris_features = iris.drop('species', axis=1)
+
+# Min-Max Normalization
+minmax_scaler = MinMaxScaler()
+iris_normalized = pd.DataFrame(minmax_scaler.fit_transform(iris_features), columns=iris_features.columns)
+print("✅ Normalized Iris Dataset (first 5 rows):\n", iris_normalized.head())
+
+# Standardization
+standard_scaler = StandardScaler()
+iris_standardized = pd.DataFrame(standard_scaler.fit_transform(iris_features), columns=iris_features.columns)
+print("\n✅ Standardized Iris Dataset (first 5 rows):\n", iris_standardized.head())
+
+print("\n📏 Min values:\n", iris_features.min())
+print("\n📐 Max values:\n", iris_features.max())
+
+# ------------------------------------------------
+# 🌸 TASK 5: Boxplot of Iris Dataset
+# ------------------------------------------------
+print("\n📌 TASK 5: Boxplot (Iris)\n")
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=iris_features)
+plt.title("📦 Boxplot of Iris Features")
+plt.show()
+
+# ------------------------------------------------
+# 🌸 TASK 6: Correlation Matrix - Iris Dataset
+# ------------------------------------------------
+print("\n📌 TASK 6: Correlation Matrix (Iris)\n")
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(iris_features.corr(), annot=True, cmap="coolwarm", fmt=".2f")
+plt.title("🔗 Correlation Matrix - Iris Dataset")
+plt.show()
+
+# ------------------------------------------------
+# 🌸 TASK 7: Count Plot of Species - Iris Dataset
+# ------------------------------------------------
+print("\n📌 TASK 7: Count Plot (Iris Species)\n")
+
+plt.figure(figsize=(6, 4))
+sns.countplot(data=iris, x='species', hue='species', palette='Set2', legend=False)
+plt.title("🔢 Count of Each Species in Iris Dataset")
+plt.xlabel("Species")
+plt.ylabel("Count")
+plt.show()
+
+# 🚢 Titanic & 🌸 Iris Dataset Analysis Project
+
+This project includes data preprocessing, visualization, and encoding tasks using the Titanic and Iris datasets. It demonstrates essential data analysis and machine learning preparation steps using Python libraries like Pandas, NumPy, Seaborn, and Scikit-learn.
+
+---
+
+## 📁 Datasets Used
+
+- Titanic Dataset: Contains information about passengers on the Titanic.
+- Iris Dataset: Contains data about three species of Iris flowers.
+
+---
+
+## ✅ Tasks Overview
+
+### 🔹 Task 1: Dropping Missing Values (Titanic)
+- Load the Titanic dataset.
+- Check for missing values.
+- Drop all rows with missing data using dropna().
+
+### 🔹 Task 2: Filling Missing Values (Titanic)
+- Fill missing values in:
+  - age with median
+  - embarked with mode
+  - deck with a custom value like "Unknown"
+
+### 🔹 Task 3: Label Encoding (Titanic)
+- Convert categorical columns (sex, embarked, etc.) to numeric using LabelEncoder.
+
+---
+
+### 🔹 Task 4: Normalizing and Standardizing (Iris)
+- Load the Iris dataset.
+- Apply MinMaxScaler for normalization (range 0–1).
+- Apply StandardScaler for standardization (mean=0, std=1).
+
+### 🔹 Task 5: Boxplot Visualization (Iris)
+- Use Seaborn's boxplot() to visualize the spread and outliers in features like sepal length, petal width, etc.
+
+### 🔹 Task 6: Correlation Matrix Plot (Iris)
+- Generate a heatmap using sns.heatmap() to display correlations between the numeric features.
+
+### 🔹 Task 7: Count Plot of Species (Iris)
+- Create a count plot with sns.countplot() to show the number of samples for each flower species.
+
+---
+
+## 🛠 Libraries Used
+
+- pandas
+- numpy
+- seaborn
+- matplotlib.pyplot
+- sklearn.preprocessing
+
+---
+
+## 📊 Visualizations
+
+- Boxplots: For spotting outliers and understanding distributions.
+- Heatmaps: For visualizing feature correlations.
+- Countplots: For class frequency distribution.
+
+---
+
+## 📌 How to Run
+
+1. Install dependencies:
+   ```bash
+   pip install pandas numpy seaborn matplotlib scikit-learn
